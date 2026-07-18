@@ -3,164 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shabbir Badri — The Human Kaleidoscope | Life Portfolio</title>
+<title>Shabbir Badri — The Human Kaleidoscope | Immersive Experience</title>
 <meta name="description" content="Scientist, Explorer, Builder, Educator, Scout, Innovator — the life portfolio of Shabbir Badri (THK).">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;500;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<noscript><style>.curtain,.preloader{display:none !important;}[data-reveal],.word{opacity:1 !important;transform:none !important;}</style></noscript>
+<link rel="stylesheet" href="assets/immersive.css">
+
+<!-- Three.js & GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<noscript><style>.auth-gate, .preloader, #webgl-container { display: none !important; } .fallback-content { display: block !important; } </style></noscript>
 </head>
-<body class="has-preloader">
+<body class="immersive-experience is-locked no-select">
 
-<div class="grain"></div>
-<div class="curtain" id="curtain"></div>
+<!-- Authorization Gate -->
+<div class="auth-gate" id="authGate">
+    <div class="auth-box glass-panel">
+        <div class="auth-logo-wrapper">
+            <div class="thk-logo-animated">
+                <span class="l1">T</span>
+                <span class="l2">H</span>
+                <span class="l3">K</span>
+                <div class="logo-ring"></div>
+            </div>
+        </div>
+        <h2 class="auth-title">System Access</h2>
+        <p class="auth-desc">Select your authorization clearance to initiate the experience.</p>
 
-<div class="preloader" id="preloader">
-  <div class="preloader-ring"></div>
-  <p class="preloader-word">The Human Kaleidoscope</p>
-  <p class="preloader-skip">click anywhere to skip</p>
+        <div class="auth-options">
+            <button class="auth-btn guest-btn" data-clearance="guest">
+                <span class="btn-icon">👁️</span>
+                <div class="btn-text">
+                    <strong>Guest Access</strong>
+                    <span>Cinematic & Narrative Focus</span>
+                </div>
+            </button>
+            <button class="auth-btn pro-btn" data-clearance="professional">
+                <span class="btn-icon">💼</span>
+                <div class="btn-text">
+                    <strong>Professional Clearance</strong>
+                    <span>Technical & Architectural Focus</span>
+                </div>
+            </button>
+        </div>
+
+        <div class="sec-status">
+            <span class="sec-dot"></span> End-to-End Encryption Simulated
+        </div>
+    </div>
 </div>
 
-<header class="topbar">
-  <a class="brand" href="index.html" data-transition data-facet="explorer">
-    <div class="logo-mark"><span>TK</span></div>
-    <span class="brand-name">SHABBIR BADRI</span>
-  </a>
-  <div class="topbar-right">
-    <span class="page-progress">HOME</span>
-    <button class="menu-btn" id="menuToggle" aria-label="Open navigation">
-      <span class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></span>
-    </button>
+<!-- WebGL Container -->
+<div id="webgl-container"></div>
+
+<!-- Top Navigation / Status Bar -->
+<header class="sys-topbar glass-panel-dark hidden-until-auth">
+  <div class="sys-brand">
+    <div class="thk-logo-mini">THK</div>
+    <span class="sys-name">SHABBIR BADRI</span>
+  </div>
+  <div class="sys-status">
+    <span id="clearanceLevelDisplay" class="clearance-badge">GUEST</span>
+    <span class="sys-time" id="sysTime">00:00:00</span>
   </div>
 </header>
 
-<nav class="nav-overlay" id="navOverlay">
-  <div class="nav-overlay-top">
-    <div class="brand"><div class="logo-mark"><span>TK</span></div><span class="brand-name">CONTENTS</span></div>
-    <button class="nav-close" id="navClose" aria-label="Close navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  </div>
-  <div class="nav-list">
-    <a href="index.html" class="current" data-transition data-facet="explorer" style="--nd:var(--facet-explorer)"><span class="num">00</span>Home<span class="tick">•</span></a>
-    <a href="about.html" data-transition data-facet="scientist" style="--nd:var(--facet-scientist)"><span class="num">01</span>Who I Am</a>
-    <a href="journey.html" data-transition data-facet="explorer" style="--nd:var(--facet-explorer)"><span class="num">02</span>The Journey</a>
-    <a href="experience.html" data-transition data-facet="builder" style="--nd:var(--facet-builder)"><span class="num">03</span>Experience</a>
-    <a href="projects.html" data-transition data-facet="innovator" style="--nd:var(--facet-innovator)"><span class="num">04</span>Projects &amp; Innovation</a>
-    <a href="skills.html" data-transition data-facet="scientist" style="--nd:var(--facet-scientist)"><span class="num">05</span>Skills &amp; Certifications</a>
-    <a href="leadership.html" data-transition data-facet="scout" style="--nd:var(--facet-scout)"><span class="num">06</span>Leadership &amp; Scouting</a>
-    <a href="philosophy.html" data-transition data-facet="educator" style="--nd:var(--facet-educator)"><span class="num">07</span>Philosophy</a>
-    <a href="vision.html" data-transition data-facet="innovator" style="--nd:var(--facet-innovator)"><span class="num">08</span>Vision</a>
-    <a href="connect.html" data-transition data-facet="explorer" style="--nd:var(--facet-explorer)"><span class="num">09</span>Connect</a>
-  </div>
-  <div class="nav-social">
-    <a href="mailto:shabbirbadri515253@gmail.com">Email</a>
-    <a href="https://www.linkedin.com/in/ShabbirBadriTHK" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/shabbirbadri" target="_blank" rel="noopener">GitHub</a>
-    <a href="#" target="_blank" rel="noopener">Instagram</a>
-  </div>
-</nav>
+<!-- Storytelling Container -->
+<main class="story-wrapper hidden-until-auth">
 
-<section class="hero">
-  <div class="hero-content">
-    <p class="hero-eyebrow">Life Portfolio</p>
-    <h1 class="split-heading">Shabbir Badri</h1>
-    <p class="hero-alias" data-reveal data-reveal-delay="2">THK — THE HUMAN KALEIDOSCOPE</p>
-    <div class="facet-row" data-reveal data-reveal-delay="3">
-      <span class="facet-pill" style="--pc:var(--facet-scientist)"><span class="dot"></span>Scientist</span>
-      <span class="facet-pill" style="--pc:var(--facet-explorer)"><span class="dot"></span>Explorer</span>
-      <span class="facet-pill" style="--pc:var(--facet-builder)"><span class="dot"></span>Builder</span>
-      <span class="facet-pill" style="--pc:var(--facet-educator)"><span class="dot"></span>Educator</span>
-      <span class="facet-pill" style="--pc:var(--facet-scout)"><span class="dot"></span>Scout</span>
-      <span class="facet-pill" style="--pc:var(--facet-innovator)"><span class="dot"></span>Innovator</span>
+    <!-- Hero Section -->
+    <section class="story-step step-hero">
+        <div class="content-block center-block glass-panel">
+            <h1 class="cinematic-title">The Human Kaleidoscope</h1>
+            <p class="cinematic-subtitle">A synthesis of Science, Technology, and Creativity</p>
+            <div class="scroll-indicator">
+                <span>Initiate Journey</span>
+                <div class="mouse-icon"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Identity & Foundation -->
+    <section class="story-step step-identity" id="chapter-1">
+        <div class="content-block left-block glass-panel">
+            <div class="chapter-meta">Chapter 01 // Who I Am</div>
+            <h2 class="section-title">Identity & Foundation</h2>
+            <p class="section-text">The academic base, the CGPA and distinctions, and the underlying question that drives every system I build.</p>
+            <div class="professional-data hidden">
+                <h4>Technical Specifications</h4>
+                <ul class="data-list">
+                    <li>Discipline: Biotechnology & Engineering</li>
+                    <li>Core Competency: Systems Architecture</li>
+                </ul>
+            </div>
+            <a href="about.html" class="sys-btn">Explore Sub-System →</a>
+        </div>
+    </section>
+
+    <!-- The Journey -->
+    <section class="story-step step-journey" id="chapter-2">
+        <div class="content-block right-block glass-panel">
+            <div class="chapter-meta">Chapter 02 // The Journey</div>
+            <h2 class="section-title">Four Life Phases</h2>
+            <p class="section-text">Explorer, Builder, Innovator, Architect. A timeline spanning from 2006 into the unwritten future.</p>
+            <div class="professional-data hidden">
+                <h4>Temporal Analytics</h4>
+                <div class="timeline-bar"></div>
+            </div>
+            <a href="journey.html" class="sys-btn">View Timeline →</a>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="story-step step-experience" id="chapter-3">
+        <div class="content-block left-block glass-panel">
+            <div class="chapter-meta">Chapter 03 // Experience</div>
+            <h2 class="section-title">Nine Years. Nine Roles.</h2>
+            <p class="section-text">Editorial, freelance, and full-time execution running in parallel with rigorous scientific inquiry.</p>
+            <a href="experience.html" class="sys-btn">Access Dossier →</a>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="story-step step-projects" id="chapter-4">
+        <div class="content-block center-block glass-panel">
+            <div class="chapter-meta">Chapter 04 // Innovation</div>
+            <h2 class="section-title">Architecting Reality</h2>
+            <p class="section-text">Three flagship protocols: Biotech infrastructure, Food Science advancements, and Documentary Film.</p>
+            <a href="projects.html" class="sys-btn">Inspect Prototypes →</a>
+        </div>
+    </section>
+
+    <!-- Philosophy & Vision -->
+    <section class="story-step step-philosophy" id="chapter-5">
+        <div class="content-block right-block glass-panel">
+            <div class="chapter-meta">Chapter 07 & 08 // Philosophy & Vision</div>
+            <h2 class="section-title">The Long Game</h2>
+            <p class="section-text">Establishing Biotechnology hubs. Ideas on knowledge, leadership, and the necessity of failure.</p>
+            <div class="btn-group">
+                <a href="philosophy.html" class="sys-btn">Read Philosophy</a>
+                <a href="vision.html" class="sys-btn">View Masterplan</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect -->
+    <section class="story-step step-connect" id="chapter-9">
+        <div class="content-block center-block glass-panel">
+            <div class="chapter-meta">Chapter 09 // Connect</div>
+            <h2 class="section-title">Establish Link</h2>
+            <p class="section-text">Open channels for collaboration, inquiry, and system integration.</p>
+            <div class="social-grid">
+                <a href="mailto:shabbirbadri515253@gmail.com" class="social-cell">Email Protocol</a>
+                <a href="https://www.linkedin.com/in/ShabbirBadriTHK" target="_blank" class="social-cell">LinkedIn Network</a>
+                <a href="https://github.com/shabbirbadri" target="_blank" class="social-cell">GitHub Repository</a>
+            </div>
+            <a href="connect.html" class="sys-btn" style="margin-top: 2rem;">Full Contact Info →</a>
+        </div>
+    </section>
+
+    <div class="footer-spacer"></div>
+</main>
+
+<!-- Security overlay for protected actions -->
+<div id="secWarningOverlay" class="sec-warning-overlay">
+    <div class="sec-warning-box">
+        <div class="warning-icon">⚠️</div>
+        <h3>Security Protocol Active</h3>
+        <p>Unauthorized action blocked. Element protection is active on this system.</p>
     </div>
-    <p class="hero-motto" data-reveal data-reveal-delay="4">"Striving to unite science, technology, leadership, creativity, and service into meaningful solutions that advance knowledge, empower communities, and inspire future generations."</p>
-  </div>
-  <div class="scroll-cue"><span>Scroll</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg></div>
-</section>
+</div>
 
-<section class="index-section">
-  <div class="wrap">
-    <div class="index-head" data-reveal>
-      <div>
-        <p class="eyebrow">Table of Contents</p>
-        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-top:0.8rem;">Nine chapters. One throughline.</h2>
-      </div>
-      <p style="color:var(--text-secondary);max-width:320px;font-size:0.92rem;">Pick a chapter — each one is its own page, its own mood, same person underneath.</p>
-    </div>
-
-    <div class="chapter-grid" data-reveal data-reveal-delay="1">
-      <a class="chapter-tile" href="about.html" data-transition data-facet="scientist" style="--tc:var(--facet-scientist)">
-        <span class="cnum">01 — WHO I AM</span>
-        <h3>Identity &amp; Foundation</h3>
-        <p>The academic base, the CGPA and distinctions, and the question underneath everything I build.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="journey.html" data-transition data-facet="explorer" style="--tc:var(--facet-explorer)">
-        <span class="cnum">02 — THE JOURNEY</span>
-        <h3>Four Life Phases</h3>
-        <p>Explorer, Builder, Innovator, Architect — 2006 through 2040 and beyond.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="experience.html" data-transition data-facet="builder" style="--tc:var(--facet-builder)">
-        <span class="cnum">03 — EXPERIENCE</span>
-        <h3>Nine Years, Nine Roles</h3>
-        <p>Editorial, freelance, and full-time work running in parallel with the science.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="projects.html" data-transition data-facet="innovator" style="--tc:var(--facet-innovator)">
-        <span class="cnum">04 — PROJECTS</span>
-        <h3>CSF Oscillator &amp; More</h3>
-        <p>Three flagship projects — biotech, food science, and documentary film.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="skills.html" data-transition data-facet="scientist" style="--tc:var(--facet-scientist)">
-        <span class="cnum">05 — SKILLS</span>
-        <h3>The Working Toolkit</h3>
-        <p>Lab sciences, bioinformatics, programming, and content — indexed.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="leadership.html" data-transition data-facet="scout" style="--tc:var(--facet-scout)">
-        <span class="cnum">06 — LEADERSHIP</span>
-        <h3>Command &amp; Khidmat</h3>
-        <p>Scouting, Model UN, and community service — thirty-plus conferences deep.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="philosophy.html" data-transition data-facet="educator" style="--tc:var(--facet-educator)">
-        <span class="cnum">07 — PHILOSOPHY</span>
-        <h3>Six Ideas</h3>
-        <p>On knowledge, education, leadership, innovation, failure, and curiosity.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="vision.html" data-transition data-facet="innovator" style="--tc:var(--facet-innovator)">
-        <span class="cnum">08 — VISION</span>
-        <h3>The Long Game</h3>
-        <p>Biotechnology hubs in Pakistan — why the projects above are stepping stones.</p>
-        <span class="go">ENTER →</span>
-      </a>
-      <a class="chapter-tile" href="connect.html" data-transition data-facet="explorer" style="--tc:var(--facet-explorer)">
-        <span class="cnum">09 — CONNECT</span>
-        <h3>Get In Touch</h3>
-        <p>Email, LinkedIn, GitHub, and the rest.</p>
-        <span class="go">ENTER →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap footer-inner">
-    <p>&copy; <span class="year"></span> Shabbir Badri (THK)</p>
-    <div class="footer-links">
-      <a href="mailto:shabbirbadri515253@gmail.com">Email</a>
-      <a href="https://www.linkedin.com/in/ShabbirBadriTHK" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/shabbirbadri" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/script.js"></script>
-<script>
-  document.getElementById('preloader')?.addEventListener('click', function(){ this.classList.add('done'); });
-</script>
+<script src="assets/security-features.js"></script>
+<script src="assets/3d-scene.js"></script>
 </body>
 </html>
