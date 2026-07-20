@@ -81,7 +81,14 @@
     /* ---------- split heading word-stagger ---------- */
     document.querySelectorAll('.split-heading').forEach(heading => {
       const words = heading.textContent.trim().split(/\s+/);
-      heading.innerHTML = words.map((w, i) => `<span class="word" style="transition-delay:${(i * 0.055).toFixed(2)}s">${w}&nbsp;</span>`).join('');
+      heading.innerHTML = '';
+      words.forEach((w, i) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.style.transitionDelay = `${(i * 0.055).toFixed(2)}s`;
+        span.textContent = w + '\u00A0';
+        heading.appendChild(span);
+      });
     });
     const headingObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
